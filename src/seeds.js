@@ -10,25 +10,27 @@ const user = {
   password: 'abcd1234'
 };
 
+const AVATAR = 'https://cdn-img.easyicon.net/png/5488/548873.gif';
+
 const students = [
-  { name: 'Veronica Doten', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Rutha Lingle', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Michal Olmsted', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Ellamae Mickles', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Billy Crafton', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Jonie Burry', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Adrianne Janco', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Tillie Coria', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Illa Lewellen', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Josette Flemons', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Marylynn Collingwood', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Tomika Mclelland', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Cameron Puett', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Denise Aleman', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Shasta Hyde', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Maxine Dantzler', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Benny Saar', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
-  { name: 'Lilli Desai', picture: 'https://cdn-img.easyicon.net/png/5488/548873.gif' },
+  { name: 'Veronica Doten', picture: AVATAR, class: classes[1] },
+  { name: 'Rutha Lingle', picture: AVATAR, class: classes[3] },
+  { name: 'Michal Olmsted', picture: AVATAR, class: classes[2] },
+  { name: 'Ellamae Mickles', picture: AVATAR, class: classes[1] },
+  { name: 'Billy Crafton', picture: AVATAR, class: classes[1] },
+  { name: 'Jonie Burry', picture: AVATAR, class: classes[2] },
+  { name: 'Adrianne Janco', picture: AVATAR, class: classes[2] },
+  { name: 'Tillie Coria', picture: AVATAR, class: classes[1] },
+  { name: 'Illa Lewellen', picture: AVATAR, class: classes[3] },
+  { name: 'Josette Flemons', picture: AVATAR, class: classes[3] },
+  { name: 'Marylynn Collingwood', picture: AVATAR, class: classes[1] },
+  { name: 'Tomika Mclelland', picture: AVATAR, class: classes[1] },
+  { name: 'Cameron Puett', picture: AVATAR, class: classes[2] },
+  { name: 'Denise Aleman', picture: AVATAR, class: classes[2] },
+  { name: 'Shasta Hyde', picture: AVATAR, class: classes[2] },
+  { name: 'Maxine Dantzler', picture: AVATAR, class: classes[1] },
+  { name: 'Benny Saar', picture: AVATAR, class: classes[3] },
+  { name: 'Lilli Desai', picture: AVATAR, class: classes[1] },
 ];
 
 const scores = [
@@ -50,6 +52,12 @@ const scores = [
   { date: '2017-10-05', color_code: 'GREEN', student: students[11]},
   { date: '2017-10-05', color_code: 'GREEN', student: students[12]},
   { date: '2017-10-05', color_code: 'GREEN', student: students[13]},
+];
+
+const classes = [
+  { name: 10, start_date: '2017-08-28', end_date: '2017-10-28'},
+  { name: 11, start_date: '2017-10-02', end_date: '2017-12-02'},
+  { name: 12, start_date: '2017-10-30', end_date: '2018-01-05'},
 ];
 
 const feathersClient = feathers();
@@ -81,8 +89,16 @@ feathersClient.service('students').create(students)
 
 feathersClient.service('scores').create(scores)
   .then(() => {
-    console.log('Students seeded!');
+    console.log('Scores seeded!');
   })
   .catch(function(error) {
-    console.error('Error creating user!', error);
+    console.error('Error creating scores!', error);
+  });
+
+feathersClient.service('classes').create(classes)
+  .then(() => {
+    console.log('Classes seeded!');
+  })
+  .catch(function(error) {
+    console.error('Error creating classes!', error);
   });
