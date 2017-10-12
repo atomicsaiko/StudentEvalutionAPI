@@ -23,7 +23,6 @@ const classes = [
   { _id: new mongooseClient.Types.ObjectId(), name: 11, start_date: '2017-10-02', end_date: '2017-12-02'},
   { _id: new mongooseClient.Types.ObjectId(), name: 12, start_date: '2017-10-30', end_date: '2018-01-05'},
   { _id: new mongooseClient.Types.ObjectId(), name: 13, start_date: '2017-10-30', end_date: '2018-01-05'},
-  // generate ObjectId manually then use this ref for the Student class field as REF
 ];
 
 const AVATAR = 'https://cdn-img.easyicon.net/png/5488/548873.gif';
