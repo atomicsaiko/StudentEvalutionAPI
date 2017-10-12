@@ -9,7 +9,8 @@ module.exports = function (app) {
   const students = new Schema({
     name: { type: String, required: true },
     picture: { type: String, required: true },
-    class: [{ type: mongooseClient.Schema.Types.ObjectId, ref: 'classes' }],
+    class: { type: mongooseClient.Schema.Types.ObjectId, ref: 'classes' }, //http://mongoosejs.com/docs/populate.html
+    remark: { type: String, required: false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });

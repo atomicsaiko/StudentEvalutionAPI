@@ -9,7 +9,7 @@ module.exports = function (app) {
   const scores = new Schema({
     date: { type: Date, required: true },
     color_code: { type: String, required: true },
-    student: [{ type: mongooseClient.Schema.Types.ObjectId, ref: 'students' }],
+    student: { type: mongooseClient.Schema.Types.ObjectId, ref: 'students' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });

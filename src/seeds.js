@@ -4,6 +4,10 @@ const superagent = require('superagent');
 const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication-client');
 
+// const mongooseClient = feathers().get('mongooseClient');
+const app = require('./app');
+const mongooseClient = app.get('mongooseClient');
+
 const user = {
   name: 'John Doe',
   email: 'john.doe@codaisseur.dev',
@@ -11,53 +15,62 @@ const user = {
 };
 
 const AVATAR = 'https://cdn-img.easyicon.net/png/5488/548873.gif';
+// const NEW_OBJECT_ID = new mongooseClient.Types.ObjectId();
+
+/*
+  Because of references between documents. Seed the data in the following order:
+  classes -> students -> scores
+*/
+
+
+const classes = [
+  { _id: new mongooseClient.Types.ObjectId(), name: 10, start_date: '2017-08-28', end_date: '2017-10-28'},
+  { _id: new mongooseClient.Types.ObjectId(), name: 11, start_date: '2017-10-02', end_date: '2017-12-02'},
+  { _id: new mongooseClient.Types.ObjectId(), name: 12, start_date: '2017-10-30', end_date: '2018-01-05'},
+  { _id: new mongooseClient.Types.ObjectId(), name: 13, start_date: '2017-10-30', end_date: '2018-01-05'},
+  // generate ObjectId manually then use this ref for the Student class field as REF
+];
 
 const students = [
-  { name: 'Veronica Doten', picture: AVATAR, class: classes[1] },
-  { name: 'Rutha Lingle', picture: AVATAR, class: classes[3] },
-  { name: 'Michal Olmsted', picture: AVATAR, class: classes[2] },
-  { name: 'Ellamae Mickles', picture: AVATAR, class: classes[1] },
-  { name: 'Billy Crafton', picture: AVATAR, class: classes[1] },
-  { name: 'Jonie Burry', picture: AVATAR, class: classes[2] },
-  { name: 'Adrianne Janco', picture: AVATAR, class: classes[2] },
-  { name: 'Tillie Coria', picture: AVATAR, class: classes[1] },
-  { name: 'Illa Lewellen', picture: AVATAR, class: classes[3] },
-  { name: 'Josette Flemons', picture: AVATAR, class: classes[3] },
-  { name: 'Marylynn Collingwood', picture: AVATAR, class: classes[1] },
-  { name: 'Tomika Mclelland', picture: AVATAR, class: classes[1] },
-  { name: 'Cameron Puett', picture: AVATAR, class: classes[2] },
-  { name: 'Denise Aleman', picture: AVATAR, class: classes[2] },
-  { name: 'Shasta Hyde', picture: AVATAR, class: classes[2] },
-  { name: 'Maxine Dantzler', picture: AVATAR, class: classes[1] },
-  { name: 'Benny Saar', picture: AVATAR, class: classes[3] },
-  { name: 'Lilli Desai', picture: AVATAR, class: classes[1] },
+  { _id: new mongooseClient.Types.ObjectId(), name: 'Veronica Doten', picture: AVATAR, class: classes[0]['_id'] },
+  { _id: new mongooseClient.Types.ObjectId(), name: 'Rutha Lingle', picture: AVATAR, class: classes[1]['_id'] },
+  { _id: new mongooseClient.Types.ObjectId(), name: 'Michal Olmsted', picture: AVATAR, class: classes[2]['_id'] },
+  { _id: new mongooseClient.Types.ObjectId(), name: 'Ellamae Mickles', picture: AVATAR, class: classes[3]['_id'] },
+  { _id: new mongooseClient.Types.ObjectId(), name: 'Billy Crafton', picture: AVATAR, class: classes[1]['_id'] },
+  // { name: 'Jonie Burry', picture: AVATAR, class: classes[2] },
+  // { name: 'Adrianne Janco', picture: AVATAR, class: classes[2] },
+  // { name: 'Tillie Coria', picture: AVATAR, class: classes[1] },
+  // { name: 'Illa Lewellen', picture: AVATAR, class: classes[3] },
+  // { name: 'Josette Flemons', picture: AVATAR, class: classes[3] },
+  // { name: 'Marylynn Collingwood', picture: AVATAR, class: classes[1] },
+  // { name: 'Tomika Mclelland', picture: AVATAR, class: classes[1] },
+  // { name: 'Cameron Puett', picture: AVATAR, class: classes[2] },
+  // { name: 'Denise Aleman', picture: AVATAR, class: classes[2] },
+  // { name: 'Shasta Hyde', picture: AVATAR, class: classes[2] },
+  // { name: 'Maxine Dantzler', picture: AVATAR, class: classes[1] },
+  // { name: 'Benny Saar', picture: AVATAR, class: classes[3] },
+  // { name: 'Lilli Desai', picture: AVATAR, class: classes[1] },
 ];
 
 const scores = [
-  { date: '2017-10-02', color_code: 'RED', student: students[1]},
-  { date: '2017-10-02', color_code: 'YELLOW', student: students[2]},
-  { date: '2017-10-02', color_code: 'GREEN', student: students[3]},
-  { date: '2017-10-02', color_code: 'GREEN', student: students[4]},
-  { date: '2017-10-02', color_code: 'GREEN', student: students[5]},
-  { date: '2017-10-03', color_code: 'RED', student: students[1]},
-  { date: '2017-10-03', color_code: 'RED', student: students[2]},
-  { date: '2017-10-03', color_code: 'YELLOW', student: students[3]},
-  { date: '2017-10-03', color_code: 'YELLOW', student: students[4]},
-  { date: '2017-10-04', color_code: 'GREEN', student: students[5]},
-  { date: '2017-10-04', color_code: 'GREEN', student: students[6]},
-  { date: '2017-10-04', color_code: 'RED', student: students[7]},
-  { date: '2017-10-04', color_code: 'RED', student: students[8]},
-  { date: '2017-10-05', color_code: 'RED', student: students[9]},
-  { date: '2017-10-05', color_code: 'GREEN', student: students[10]},
-  { date: '2017-10-05', color_code: 'GREEN', student: students[11]},
-  { date: '2017-10-05', color_code: 'GREEN', student: students[12]},
-  { date: '2017-10-05', color_code: 'GREEN', student: students[13]},
-];
-
-const classes = [
-  { name: 10, start_date: '2017-08-28', end_date: '2017-10-28'},
-  { name: 11, start_date: '2017-10-02', end_date: '2017-12-02'},
-  { name: 12, start_date: '2017-10-30', end_date: '2018-01-05'},
+  { _id: new mongooseClient.Types.ObjectId(), date: '2017-10-02', color_code: 'RED', student: students[0]['_id'] },
+  { _id: new mongooseClient.Types.ObjectId(), date: '2017-10-02', color_code: 'YELLOW', student: students[1]['_id'] },
+  { _id: new mongooseClient.Types.ObjectId(), date: '2017-10-02', color_code: 'GREEN', student: students[2]['_id'] },
+  { _id: new mongooseClient.Types.ObjectId(), date: '2017-10-02', color_code: 'GREEN', student: students[3]['_id'] },
+  { _id: new mongooseClient.Types.ObjectId(), date: '2017-10-02', color_code: 'GREEN', student: students[4]['_id'] },
+  // { _id: NEW_OBJECT_ID, date: '2017-10-03', color_code: 'RED', student: students[1]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-03', color_code: 'RED', student: students[2]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-03', color_code: 'YELLOW', student: students[3]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-03', color_code: 'YELLOW', student: students[4]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-04', color_code: 'GREEN', student: students[5]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-04', color_code: 'GREEN', student: students[6]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-04', color_code: 'RED', student: students[7]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-04', color_code: 'RED', student: students[8]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-05', color_code: 'RED', student: students[9]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-05', color_code: 'GREEN', student: students[10]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-05', color_code: 'GREEN', student: students[11]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-05', color_code: 'GREEN', student: students[12]},
+  // { _id: NEW_OBJECT_ID, date: '2017-10-05', color_code: 'GREEN', student: students[13]},
 ];
 
 const feathersClient = feathers();
@@ -84,7 +97,7 @@ feathersClient.service('students').create(students)
     console.log('Students seeded!');
   })
   .catch(function(error) {
-    console.error('Error creating user!', error);
+    console.error('Error creating students!', error);
   });
 
 feathersClient.service('scores').create(scores)
