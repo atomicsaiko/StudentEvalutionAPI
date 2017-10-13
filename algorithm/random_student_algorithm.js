@@ -18,7 +18,7 @@ function getRandomInt(min, max) {
 }
 
 function getRandomStudent(array) {
-  i = getRandomInt(1, array.length);
+  var i = getRandomInt(1, array.length);
   return array[i];
 }
 
@@ -35,17 +35,17 @@ function getRandomStudent2(array) {
   // var orderedStudents = [].concat(studentRED).concat(studentYELLOW).concat(studentGREEN);
   var randomStudents = [];
 
-  for(i = 0; i < QUESTION_COUNT_RED; i++) {
+  for(var i = 0; i < QUESTION_COUNT_RED; i++) {
     let index = getRandomInt(0, studentRED.length-1);
     randomStudents.push(studentRED[index]);
   }
 
-  for(i = 0; i < QUESTION_COUNT_YELLOW; i++) {
+  for(var j = 0; j < QUESTION_COUNT_YELLOW; j++) {
     let index = getRandomInt(0, studentYELLOW.length-1);
     randomStudents.push(studentYELLOW[index]);
   }
 
-  for(i = 0; i < QUESTION_COUNT_GREEN; i++) {
+  for(var k = 0; k < QUESTION_COUNT_GREEN; k++) {
     let index = getRandomInt(0, studentGREEN.length-1);
     randomStudents.push(studentGREEN[index]);
   }
